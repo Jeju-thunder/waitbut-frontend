@@ -22,11 +22,16 @@ export default function Chat() {
           alert("오른쪽");
         }}
       />
-      {/* <div className="h-[100px]"></div> */}
-      {/* <div className="bg-gray-50 h-2 w-full"></div> */}
-
+      <div className="h-[86px]"></div>
+      <div className="bg-gray-50 border-t-[1px] border-gray-200 h-[8px]"></div>
+      {/*날짜표시 영역*/}
+      <div className="flex justify-center items-center py-[24px]">
+        <span className="text-xs text-w-600 rounded-full px-[8px] py-[6px] bg-gray-100">
+          2025.04.15
+        </span>
+      </div>
       {/*채팅 영역*/}
-      <div className="mt-4 space-y-4 px-[16px]">
+      <div className=" space-y-4 px-[16px]">
         <div className="flex justify-center"></div>
         {/* Chatbot Message */}
         <div className="flex justify-start flex-col">
