@@ -29,7 +29,7 @@ const Header = ({
       </button>
       {title && (
         <Text
-          className="font-pretendard text-gray-800 text-lg font-bold leading-6 text-center underline"
+          className="font-pretendard text-gray-800 text-lg font-bold leading-6 text-center"
           text={title}
         />
       )}
