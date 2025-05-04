@@ -1,4 +1,9 @@
+"use client";
+
 import Image from "next/image";
+import { getChatList } from "@/api/fetchers";
+import { useEffect } from "react";
+
 const Sidebar = ({
   isSidebarOpened,
   handleSidebarOpen,
@@ -8,6 +13,15 @@ const Sidebar = ({
 }) => {
   console.log("Sidebar");
   const currentChat = "바쁜 어피치";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getChatList();
+      console.log(data);
+    };
+    fetchData();
+  }, []);
+
   const sampleChatList1 = [
     {
       id: 1,
