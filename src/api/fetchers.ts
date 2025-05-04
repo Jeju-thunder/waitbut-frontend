@@ -1,7 +1,12 @@
-import { PaginationParams } from "@/types/article";
+// import { PaginationParams } from "@/types/article";
 
-const BASE_URL = process.env.BASE_URL!;
-const TOKEN = process.env.API_TOKEN!;
+type PaginationParams = {
+  start?: number;
+  limit?: number;
+};
+
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
+const TOKEN = process.env.NEXT_PUBLIC_LOGIN_TOKEN!;
 
 const headers = {
   Authorization: `Bearer ${TOKEN}`,
@@ -73,5 +78,30 @@ export async function createArticle(data: { title: string; content: string }) {
     return result.data;
   } catch (error) {
     throw error instanceof Error ? error : new Error("게시글을 생성하는 중 오류가 발생했습니다.");
+  }
+}
+
+// 채팅 목록 가져오기
+export async function getChatList() {
+  if (!TOKEN) {
+    throw new Error("토큰이 없습니다.");
+  }
+
+  if (!BASE_URL) {
+    throw new Error("BASE_URL이 없습니다.");
+  }
+
+  try {
+    const response = await fetchFromServer("/api/chatrooms");
+    console.log(response);
+    if (!response.ok) {
+      throw new Error("채팅 목록을 가져오는 중 오류가 발생했습니다.");
+    }
+
+    const result = await response.json();
+    return result.data;
+  } catch (error) {
+    console.error(`Error fetching chat list: ${error}`);
+    throw error;
   }
 }
