@@ -1,5 +1,5 @@
-const BASE_URL = process.env.BASE_URL!;
-const TOKEN = process.env.API_TOKEN!;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
+const TOKEN = process.env.NEXT_PUBLIC_API_TOKEN!;
 
 const headers = {
   Authorization: `Bearer ${TOKEN}`,
@@ -63,5 +63,33 @@ export async function createArticle(data: { title: string; content: string }) {
     throw error instanceof Error
       ? error
       : new Error("게시글을 생성하는 중 오류가 발생했습니다.");
+  }
+}
+
+// 답변 제출하기
+export async function handleSubmit(questionId: string, isSelected: boolean) {
+  try {
+    const response = await fetchFromServer(
+      `/api/questions/${questionId}/answer`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify({ content: isSelected }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to submit answer");
+    }
+
+    const result = await response.json();
+    console.log("Answer submitted:", result);
+    return result;
+  } catch (error) {
+    console.error("Error submitting answer:", error);
+    throw error;
   }
 }
