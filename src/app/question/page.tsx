@@ -1,7 +1,9 @@
 "use client";
-import {Header, QuestionCard, BigOButton, BigXButton} from "./components";
-import {useGetQuestion} from "@/hooks/apis/useGetQuestion";
-// import {Question} from "@/types/question";
+import { useState, useEffect } from "react";
+import { Header, QuestionCard, BigOButton, BigXButton } from "./components";
+import { useGetQuestion } from "@/hooks/apis/useGetQuestion";
+import { handleSubmit } from "@/api/fetchers";
+import { Questions } from "@/types/question";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const default_question = {
@@ -21,13 +23,36 @@ const default_question = {
  * @TODO API 테스트 완료 후 데이터 교체
  */
 function TodayQuestion() {
-  const response = useGetQuestion();
-  console.log(response);
-  // const sanitizedQuestion = response &&
-  //   "questions" in Object.keys(response) && {
-  //     main: response.questions[0].title || "",
-  //     describe: response.questions[0].content || "",
-  //   };
+  const [question, setQuestion] = useState<Questions[] | null>(null);
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await useGetQuestion();
+
+        if (
+          response &&
+          "questions" in response &&
+          response.questions.length > 0
+        ) {
+          setQuestion(response.questions[0]);
+        }
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      }
+    };
+
+    fetchQuestions();
+  }, []);
+
+  const handleAnswer = async (isSelected: boolean) => {
+    try {
+      await handleSubmit(question?.id, isSelected);
+    } catch (error) {
+      console.error("Error submitting answer:", error);
+    }
+  };
+
+  console.log("questions", question);
 
   return (
     <div className="bg-purple-600 w-full h-full">
@@ -35,7 +60,7 @@ function TodayQuestion() {
       <Header />
 
       {/* body */}
-      <div className="h-full w-full bg-gradient-to-b from-[#F6F1FF] to-white flex flex-col px-[26px]">
+      <div className="h-full w-full bg-gradient-to-b from-[#F3EEFE] to-[#AFA4FF] flex flex-col px-[26px]">
         {/* main text */}
         <div className="py-[36px] text-center items-center text-purple-700 text-[20px] font-semibold">
           어서오세요.
@@ -44,18 +69,20 @@ function TodayQuestion() {
         </div>
         {/* question card */}
         <div className="justify-center flex">
-          {/* <QuestionCard question={sanitizedQuestion || default_question}> */}
-          <QuestionCard question={default_question}>
+          <QuestionCard question={question || default_question}>
+            {/* <QuestionCard question={default_question}> */}
             <div className="flex space-x-5">
-              <BigOButton />
-              <BigXButton />
+              <BigOButton onClick={() => handleAnswer(true)} />
+              <BigXButton onClick={() => handleAnswer(false)} />
             </div>
           </QuestionCard>
         </div>
 
         {/* bottom button */}
         <div className="pt-6">
-          <button className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m-">다른 유저와 대화하기</button>
+          <button className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m-">
+            다른 질문으로 대화하기
+          </button>
         </div>
       </div>
     </div>
