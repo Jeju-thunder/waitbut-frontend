@@ -6,6 +6,15 @@ import { useUserInfo } from "./useUserInfo";
 export default function MyProfile() {
   const router = useRouter();
   const { data, isLoading, isError } = useUserInfo();
+  const handleLogoutClick = () => {
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
+
+  const handleWithdrawalClick = () => {
+    alert("탈퇴 기능은 아직 준비중입니다.");
+    // router.push("/withdrawal");
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -47,11 +56,15 @@ export default function MyProfile() {
           <ProfileWrapper title="서비스 지원">
             <div className="gap-4 flex flex-col">
               <div className="flex flex-row items-center justify-between">
-                <div className="text-gray-500">로그아웃</div>
+                <button className="text-gray-500" onClick={handleLogoutClick}>
+                  로그아웃
+                </button>
               </div>
 
               <div className="flex flex-row items-center justify-between">
-                <div className="text-gray-500">탈퇴하기</div>
+                <button className="text-gray-500" onClick={handleWithdrawalClick}>
+                  탈퇴하기
+                </button>
               </div>
             </div>
           </ProfileWrapper>
