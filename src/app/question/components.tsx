@@ -50,7 +50,7 @@ export const QuestionCard = ({
             src="/light_balb.png"
           />
         </div>
-        <div className="text-center flex align-center justify-center text-2xl font-extrabold break-keep">
+        <div className="text-center flex align-center justify-center text-2xl text-[#252B37] font-extrabold break-keep">
           {question.main}
         </div>
         <div className="text-center flex align-center justify-center text-[#717680] px-2 break-keep">
