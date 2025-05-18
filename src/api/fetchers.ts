@@ -1,21 +1,17 @@
-// import { PaginationParams } from "@/types/article";
-
-type PaginationParams = {
-  start?: number;
-  limit?: number;
-};
+import { getAccessToken } from '@/utils/token';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
-const TOKEN = process.env.NEXT_PUBLIC_LOGIN_TOKEN!;
-
+const token = getAccessToken();
 const headers = {
-  Authorization: `Bearer ${TOKEN}`,
+  Authorization: `Bearer ${token}`,
   'Content-Type': 'application/json',
 };
+console.log(token)
 
 // SSR을 위한 Fetch 함수
 async function fetchFromServer(endpoint: string, options?: RequestInit) {
   const url = `${BASE_URL}${endpoint}`;
+
 
   try {
     const response = await fetch(url, {
@@ -78,7 +74,7 @@ export async function handleSubmit(questionId: string, isSelected: boolean) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ content: isSelected }),
     });
@@ -98,7 +94,7 @@ export async function handleSubmit(questionId: string, isSelected: boolean) {
 
 // 채팅 목록 가져오기
 export async function getChatList() {
-  if (!TOKEN) {
+  if (!getAccessToken()) {
     throw new Error('토큰이 없습니다.');
   }
 
