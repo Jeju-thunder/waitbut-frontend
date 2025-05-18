@@ -1,12 +1,17 @@
-import Image from "next/image";
-import { JSX, ReactNode } from "react";
+import Image from 'next/image'
+import { JSX, ReactNode } from 'react'
 
 export const Header = () => {
   return (
     <div className="h-[56px] w-auto px-4 bg-white items-center flex">
       <div className="items-center justify-start flex justify-self-start">
         <button>
-          <Image src="/list.svg" alt="list-button" width={24} height={24} />
+          <Image
+            src="/list.svg"
+            alt="list-button"
+            width={24}
+            height={24}
+          />
         </button>
       </div>
       <div className="flex items-center justify-center flex-1 space-x-[8px]">
@@ -29,15 +34,15 @@ export const Header = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export const QuestionCard = ({
   question,
   children,
 }: {
-  question: { main: string | JSX.Element; describe: string };
-  children?: ReactNode;
+  question: { main: string | JSX.Element; describe: string }
+  children?: ReactNode
 }) => {
   return (
     <div className="items-center h-[498px] w-[358px] bg-white justify-center rounded-2xl px-[24px] shadow-md space-y-11">
@@ -59,8 +64,8 @@ export const QuestionCard = ({
       </div>
       {children}
     </div>
-  );
-};
+  )
+}
 
 export const BigOButton = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -82,8 +87,8 @@ export const BigOButton = ({ onClick }: { onClick: () => void }) => {
         </button>
       </div>
     </>
-  );
-};
+  )
+}
 
 export const BigXButton = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -104,5 +109,5 @@ export const BigXButton = ({ onClick }: { onClick: () => void }) => {
         </button>
       </div>
     </>
-  );
-};
+  )
+}
