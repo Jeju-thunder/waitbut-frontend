@@ -1,13 +1,13 @@
-'use client'
-import Image from 'next/image'
-import { Header, Sidebar } from '@/components'
-import { useState } from 'react'
+'use client';
+import Image from 'next/image';
+import { Header, Sidebar } from '@/components';
+import { useState } from 'react';
 export default function Chat() {
-  const [isSidebarOpened, setIsSidebarOpened] = useState(false)
+  const [isSidebarOpened, setIsSidebarOpened] = useState(false);
   const handleSidebarOpen = () => {
-    console.log('handleSidebarOpen')
-    setIsSidebarOpened(!isSidebarOpened)
-  }
+    console.log('handleSidebarOpen');
+    setIsSidebarOpened(!isSidebarOpened);
+  };
 
   return (
     <div className="w-full h-[800px] relative overflow-hidden">
@@ -47,7 +47,7 @@ export default function Chat() {
             </div>
           }
           onRightClick={() => {
-            alert('오른쪽')
+            alert('오른쪽');
           }}
         />
         <div className="h-[86px]"></div>
@@ -90,5 +90,5 @@ export default function Chat() {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -3,5 +3,5 @@ export default function Home() {
     <div>
       <h1>아니근데</h1>
     </div>
-  )
+  );
 }

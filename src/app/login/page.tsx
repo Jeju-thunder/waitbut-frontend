@@ -1,13 +1,13 @@
-'use client'
-import Image from 'next/image'
-import { useKakaoLogin } from './useKakaoLogin'
-import './login.css'
+'use client';
+import Image from 'next/image';
+import { useKakaoLogin } from './useKakaoLogin';
+import './login.css';
 
 export default function Login() {
-  const { loginWithKakao } = useKakaoLogin()
+  const { loginWithKakao } = useKakaoLogin();
   const handleKakaoLogin = () => {
-    loginWithKakao()
-  }
+    loginWithKakao();
+  };
   return (
     <div className="bg-purple-600 w-full h-full">
       <div className="flex flex-col items-center justify-between w-full h-full p-4">
@@ -61,5 +61,5 @@ export default function Login() {
         </div>
       </div>
     </div>
-  )
+  );
 }

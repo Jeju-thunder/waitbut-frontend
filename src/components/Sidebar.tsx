@@ -1,26 +1,26 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
-import { getChatList } from '@/api/fetchers'
-import { useEffect } from 'react'
+import Image from 'next/image';
+import { getChatList } from '@/api/fetchers';
+import { useEffect } from 'react';
 
 const Sidebar = ({
   isSidebarOpened,
   handleSidebarOpen,
 }: {
-  isSidebarOpened: boolean
-  handleSidebarOpen: () => void
+  isSidebarOpened: boolean;
+  handleSidebarOpen: () => void;
 }) => {
-  console.log('Sidebar')
-  const currentChat = '바쁜 어피치'
+  console.log('Sidebar');
+  const currentChat = '바쁜 어피치';
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getChatList()
-      console.log(data)
-    }
-    fetchData()
-  }, [])
+      const data = await getChatList();
+      console.log(data);
+    };
+    fetchData();
+  }, []);
 
   const sampleChatList1 = [
     {
@@ -47,9 +47,9 @@ const Sidebar = ({
       message: '그러면 내가 너의 연인이랑 대화해줄게',
       time: new Date(),
     },
-  ]
+  ];
 
-  const sampleChatList = sampleChatList1.concat(sampleChatList1).concat(sampleChatList1).concat(sampleChatList1)
+  const sampleChatList = sampleChatList1.concat(sampleChatList1).concat(sampleChatList1).concat(sampleChatList1);
   return (
     <>
       <div
@@ -72,7 +72,7 @@ const Sidebar = ({
               <Button
                 text="편집"
                 onClick={() => {
-                  console.log('채팅 내역 편집')
+                  console.log('채팅 내역 편집');
                 }}
               />
             </div>
@@ -100,10 +100,10 @@ const Sidebar = ({
         />
       )}
     </>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
 
 const ChatListItem = ({
   name,
@@ -111,10 +111,10 @@ const ChatListItem = ({
   time,
   isFocused,
 }: {
-  name: string
-  message: string
-  time: Date
-  isFocused: boolean
+  name: string;
+  message: string;
+  time: Date;
+  isFocused: boolean;
 }) => {
   return (
     <div
@@ -135,8 +135,8 @@ const ChatListItem = ({
         <span className="text-xs text-gray-500 group-hover:text-gray-700">{message}</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const Button = ({ text, onClick }: { text: string; onClick: () => void }) => {
   return (
@@ -146,8 +146,8 @@ const Button = ({ text, onClick }: { text: string; onClick: () => void }) => {
     >
       {text}
     </button>
-  )
-}
+  );
+};
 
 // <div className="absolute top-0 left-0 h-full border border-gray-900 w-[30px] bg-white z-1000 max-w-full transform -translate-x-full transition-transform duration-300 ease-in-out">
 //   <div className="flex flex-col h-full">

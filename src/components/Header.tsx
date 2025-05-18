@@ -1,12 +1,12 @@
-import { Text } from '@/components'
+import { Text } from '@/components';
 
 interface HeaderProps {
-  className?: string
-  onRightClick?: () => void
-  onLeftClick?: () => void
-  title?: string
-  right?: React.ReactNode
-  left?: React.ReactNode
+  className?: string;
+  onRightClick?: () => void;
+  onLeftClick?: () => void;
+  title?: string;
+  right?: React.ReactNode;
+  left?: React.ReactNode;
 }
 
 const Header = ({ className, onRightClick, onLeftClick, title, right, left }: HeaderProps) => {
@@ -33,7 +33,7 @@ const Header = ({ className, onRightClick, onLeftClick, title, right, left }: He
         {right ? right : null}
       </button>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

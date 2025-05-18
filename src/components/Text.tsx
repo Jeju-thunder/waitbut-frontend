@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
 interface TextProps {
-  text?: string | number
-  className?: string
-  highlight?: string
-  style?: React.CSSProperties
+  text?: string | number;
+  className?: string;
+  highlight?: string;
+  style?: React.CSSProperties;
 }
 
 const Text = ({ text, className, style, highlight }: TextProps) => {
-  const titleParts = text ? String(text).split('/n') : []
+  const titleParts = text ? String(text).split('/n') : [];
 
   return (
     <div
@@ -32,7 +32,7 @@ const Text = ({ text, className, style, highlight }: TextProps) => {
         </p>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default Text
+export default Text;
