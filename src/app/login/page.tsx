@@ -9,7 +9,7 @@ export default function Login() {
     loginWithKakao();
   };
   return (
-    <div className="bg-purple-600 w-full h-full">
+    <div className="bg-gradient-to-b from-purple-600 to-[#A194FF] w-full h-full">
       <div className="flex flex-col items-center justify-between w-full h-full p-4">
         <div className="flex flex-col items-center">
           {/* 메인 텍스트 */}
@@ -37,7 +37,7 @@ export default function Login() {
             className="kakao-login-btn"
             onClick={handleKakaoLogin}
           >
-            카카오 계정으로 1초만에 시작하기
+            <h2>카카오 계정으로 1초만에 시작하기</h2>
           </button>
 
           {/* 하단 텍스트 */}
