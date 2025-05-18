@@ -25,7 +25,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const newLocal = "sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka";
-
   return (
     <html lang="ko">
       <head>
@@ -40,7 +39,6 @@ export default function RootLayout({
           <div className="flex bg-gray-100 justify-center items-center h-screen w-screen">
             <div className="flex flex-col justify-center items-center w-[400px] h-[800px] bg-white">
               {/* mobile 화면 레이아웃 */}
-
               {children}
             </div>
           </div>

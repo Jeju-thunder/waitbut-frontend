@@ -1,3 +1,4 @@
+
 // import { PaginationParams } from "@/types/article";
 
 type PaginationParams = {
@@ -38,16 +39,6 @@ async function fetchFromServer(endpoint: string, options?: RequestInit) {
   }
 }
 
-// 게시글 리스트 가져오기
-export async function getArticles(pagination: PaginationParams) {
-  const params = new URLSearchParams();
-
-  if (pagination.start) params.append("pagination[start]", pagination.start.toString());
-  if (pagination.limit) params.append("pagination[limit]", pagination.limit.toString());
-
-  return fetchFromServer(`/api/articles?${params.toString()}`);
-}
-
 // 특정 게시글 가져오기
 export async function getArticle(id: string) {
   const response = await fetchFromServer(`/api/articles/${id}`);
@@ -77,7 +68,37 @@ export async function createArticle(data: { title: string; content: string }) {
     const result = await response.json();
     return result.data;
   } catch (error) {
-    throw error instanceof Error ? error : new Error("게시글을 생성하는 중 오류가 발생했습니다.");
+    throw error instanceof Error
+      ? error
+      : new Error("게시글을 생성하는 중 오류가 발생했습니다.");
+  }
+}
+
+// 답변 제출하기
+export async function handleSubmit(questionId: string, isSelected: boolean) {
+  try {
+    const response = await fetchFromServer(
+      `/api/questions/${questionId}/answer`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+        body: JSON.stringify({ content: isSelected }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to submit answer");
+    }
+
+    const result = await response.json();
+    console.log("Answer submitted:", result);
+    return result;
+  } catch (error) {
+    console.error("Error submitting answer:", error);
+    throw error;
   }
 }
 
