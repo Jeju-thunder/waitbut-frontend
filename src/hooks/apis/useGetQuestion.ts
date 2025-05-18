@@ -1,8 +1,10 @@
 import { IApiResponse } from '@/types/common';
 import { Questions } from '@/types/question';
+import { getAccessToken } from '@/utils/token';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const API_TOKEN = process.env.NEXT_PUBLIC_API_TOKEN;
+const API_TOKEN = getAccessToken();
+
 const GET_CHAT = BASE_URL + '/api/question';
 type GetQuestionResponseType = IApiResponse<Questions[]>;
 
