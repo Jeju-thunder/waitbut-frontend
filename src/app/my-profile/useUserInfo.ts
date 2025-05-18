@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
 export function useUserInfo() {
   // const TOKEN =
@@ -10,11 +10,11 @@ export function useUserInfo() {
   };
 
   // const userId = localStorage.getItem("userId") || "3";
-  const userId = "3";
+  const userId = '3';
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   return useQuery({
-    queryKey: ["user", userId],
+    queryKey: ['user', userId],
     queryFn: () => {
       return fetch(`${BASE_URL}/api/members/${userId}`, { headers }).then((res) => res.json());
     },

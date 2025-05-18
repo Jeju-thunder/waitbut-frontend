@@ -4,10 +4,9 @@
   "singleQuote": true,
   "trailingComma": "all",
   "printWidth": 120,
-  "semi": false,
+  "semi": true,
   "arrowParens": "always",
   "bracketSpacing": true,
-  "jsxBracketSameLine": false,
   "endOfLine": "lf",
   "embeddedLanguageFormatting": "auto",
   "singleAttributePerLine": true

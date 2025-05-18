@@ -1,4 +1,3 @@
-
 // import { PaginationParams } from "@/types/article";
 
 type PaginationParams = {
@@ -11,7 +10,7 @@ const TOKEN = process.env.NEXT_PUBLIC_LOGIN_TOKEN!;
 
 const headers = {
   Authorization: `Bearer ${TOKEN}`,
-  "Content-Type": "application/json",
+  'Content-Type': 'application/json',
 };
 
 // SSR을 위한 Fetch 함수
@@ -25,7 +24,7 @@ async function fetchFromServer(endpoint: string, options?: RequestInit) {
         ...headers,
         ...(options?.headers || {}),
       },
-      cache: "no-store", // SSR에서는 항상 최신 데이터를 가져오기 위해 no-store 사용
+      cache: 'no-store', // SSR에서는 항상 최신 데이터를 가져오기 위해 no-store 사용
     });
 
     if (!response.ok) {
@@ -48,10 +47,10 @@ export async function getArticle(id: string) {
 // 게시글 생성하기
 export async function createArticle(data: { title: string; content: string }) {
   try {
-    const response = await fetch("/api/articles", {
-      method: "POST",
+    const response = await fetch('/api/articles', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         data: {
@@ -62,42 +61,37 @@ export async function createArticle(data: { title: string; content: string }) {
     });
 
     if (!response.ok) {
-      throw new Error("게시글을 생성하는 중 오류가 발생했습니다.");
+      throw new Error('게시글을 생성하는 중 오류가 발생했습니다.');
     }
 
     const result = await response.json();
     return result.data;
   } catch (error) {
-    throw error instanceof Error
-      ? error
-      : new Error("게시글을 생성하는 중 오류가 발생했습니다.");
+    throw error instanceof Error ? error : new Error('게시글을 생성하는 중 오류가 발생했습니다.');
   }
 }
 
 // 답변 제출하기
 export async function handleSubmit(questionId: string, isSelected: boolean) {
   try {
-    const response = await fetchFromServer(
-      `/api/questions/${questionId}/answer`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${TOKEN}`,
-        },
-        body: JSON.stringify({ content: isSelected }),
-      }
-    );
+    const response = await fetchFromServer(`/api/questions/${questionId}/answer`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      body: JSON.stringify({ content: isSelected }),
+    });
 
     if (!response.ok) {
-      throw new Error("Failed to submit answer");
+      throw new Error('Failed to submit answer');
     }
 
     const result = await response.json();
-    console.log("Answer submitted:", result);
+    console.log('Answer submitted:', result);
     return result;
   } catch (error) {
-    console.error("Error submitting answer:", error);
+    console.error('Error submitting answer:', error);
     throw error;
   }
 }
@@ -105,18 +99,18 @@ export async function handleSubmit(questionId: string, isSelected: boolean) {
 // 채팅 목록 가져오기
 export async function getChatList() {
   if (!TOKEN) {
-    throw new Error("토큰이 없습니다.");
+    throw new Error('토큰이 없습니다.');
   }
 
   if (!BASE_URL) {
-    throw new Error("BASE_URL이 없습니다.");
+    throw new Error('BASE_URL이 없습니다.');
   }
 
   try {
-    const response = await fetchFromServer("/api/chatrooms");
+    const response = await fetchFromServer('/api/chatrooms');
     console.log(response);
     if (!response.ok) {
-      throw new Error("채팅 목록을 가져오는 중 오류가 발생했습니다.");
+      throw new Error('채팅 목록을 가져오는 중 오류가 발생했습니다.');
     }
 
     const result = await response.json();

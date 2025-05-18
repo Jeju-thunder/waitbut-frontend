@@ -1,9 +1,9 @@
-"use client";
-import { useState, useEffect } from "react";
-import { Header, QuestionCard, BigOButton, BigXButton } from "./components";
-import { useGetQuestion } from "@/hooks/apis/useGetQuestion";
-import { handleSubmit } from "@/api/fetchers";
-import { Questions } from "@/types/question";
+'use client';
+import { useState, useEffect } from 'react';
+import { Header, QuestionCard, BigOButton, BigXButton } from './components';
+import { useGetQuestion } from '@/hooks/apis/useGetQuestion';
+import { handleSubmit } from '@/api/fetchers';
+import { Questions } from '@/types/question';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const default_question = {
@@ -14,9 +14,9 @@ const default_question = {
     </>
   ),
   describe:
-    "당신과 연인은 함께 지인들과 해산물 맛집을 \
+    '당신과 연인은 함께 지인들과 해산물 맛집을 \
 방문했어요. 그런데 연인이 옆자리 \
-이성 친구에게 자연스레 새우를 까서 건네줘요.",
+이성 친구에게 자연스레 새우를 까서 건네줘요.',
 };
 
 /**
@@ -29,15 +29,11 @@ function TodayQuestion() {
       try {
         const response = await useGetQuestion();
 
-        if (
-          response &&
-          "questions" in response &&
-          response.questions.length > 0
-        ) {
+        if (response && 'questions' in response && response.questions.length > 0) {
           setQuestion(response.questions[0]);
         }
       } catch (error) {
-        console.error("Error fetching questions:", error);
+        console.error('Error fetching questions:', error);
       }
     };
 
@@ -48,11 +44,11 @@ function TodayQuestion() {
     try {
       await handleSubmit(question?.id, isSelected);
     } catch (error) {
-      console.error("Error submitting answer:", error);
+      console.error('Error submitting answer:', error);
     }
   };
 
-  console.log("questions", question);
+  console.log('questions', question);
 
   return (
     <div className="bg-purple-600 w-full h-full">

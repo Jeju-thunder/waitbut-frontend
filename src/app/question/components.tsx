@@ -1,12 +1,17 @@
-import Image from "next/image";
-import { JSX, ReactNode } from "react";
+import Image from 'next/image';
+import { JSX, ReactNode } from 'react';
 
 export const Header = () => {
   return (
     <div className="h-[56px] w-auto px-4 bg-white items-center flex">
       <div className="items-center justify-start flex justify-self-start">
         <button>
-          <Image src="/list.svg" alt="list-button" width={24} height={24} />
+          <Image
+            src="/list.svg"
+            alt="list-button"
+            width={24}
+            height={24}
+          />
         </button>
       </div>
       <div className="flex items-center justify-center flex-1 space-x-[8px]">

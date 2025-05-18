@@ -1,18 +1,18 @@
-"use client";
-import Image from "next/image";
-import { Header } from "@/components";
-import { useRouter } from "next/navigation";
-import { useUserInfo } from "./useUserInfo";
+'use client';
+import Image from 'next/image';
+import { Header } from '@/components';
+import { useRouter } from 'next/navigation';
+import { useUserInfo } from './useUserInfo';
 export default function MyProfile() {
   const router = useRouter();
   const { data, isLoading, isError } = useUserInfo();
   const handleLogoutClick = () => {
-    localStorage.removeItem("token");
-    router.push("/login");
+    localStorage.removeItem('token');
+    router.push('/login');
   };
 
   const handleWithdrawalClick = () => {
-    alert("탈퇴 기능은 아직 준비중입니다.");
+    alert('탈퇴 기능은 아직 준비중입니다.');
     // router.push("/withdrawal");
   };
 
@@ -30,7 +30,14 @@ export default function MyProfile() {
         {/*헤더 영역*/}
         <Header
           title="나의 프로필"
-          left={<Image src="/arrow_left.svg" alt="arrow-left" width={18} height={15} />}
+          left={
+            <Image
+              src="/arrow_left.svg"
+              alt="arrow-left"
+              width={18}
+              height={15}
+            />
+          }
           onLeftClick={() => {
             router.back();
           }}
@@ -46,7 +53,7 @@ export default function MyProfile() {
 
               <div className="flex flex-row items-center justify-between">
                 <div className="text-gray-500">성별</div>
-                <div className="text-gray-500">{data?.gender === "M" ? "남자" : "여자"}</div>
+                <div className="text-gray-500">{data?.gender === 'M' ? '남자' : '여자'}</div>
               </div>
             </div>
           </ProfileWrapper>
@@ -56,13 +63,19 @@ export default function MyProfile() {
           <ProfileWrapper title="서비스 지원">
             <div className="gap-4 flex flex-col">
               <div className="flex flex-row items-center justify-between">
-                <button className="text-gray-500" onClick={handleLogoutClick}>
+                <button
+                  className="text-gray-500"
+                  onClick={handleLogoutClick}
+                >
                   로그아웃
                 </button>
               </div>
 
               <div className="flex flex-row items-center justify-between">
-                <button className="text-gray-500" onClick={handleWithdrawalClick}>
+                <button
+                  className="text-gray-500"
+                  onClick={handleWithdrawalClick}
+                >
                   탈퇴하기
                 </button>
               </div>

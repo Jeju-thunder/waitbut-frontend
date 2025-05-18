@@ -1,33 +1,53 @@
-"use client";
-import Image from "next/image";
-import { Header, Sidebar } from "@/components";
-import { useState } from "react";
+'use client';
+import Image from 'next/image';
+import { Header, Sidebar } from '@/components';
+import { useState } from 'react';
 export default function Chat() {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false);
   const handleSidebarOpen = () => {
-    console.log("handleSidebarOpen");
+    console.log('handleSidebarOpen');
     setIsSidebarOpened(!isSidebarOpened);
   };
 
   return (
     <div className="w-full h-[800px] relative overflow-hidden">
-      <Sidebar isSidebarOpened={isSidebarOpened} handleSidebarOpen={handleSidebarOpen} />
+      <Sidebar
+        isSidebarOpened={isSidebarOpened}
+        handleSidebarOpen={handleSidebarOpen}
+      />
       {/* 사이드바가 열렸을 때 표시될 오버레이 */}
 
       <div className="w-full h-full relative">
         {/*헤더 영역*/}
         <Header
           title="채팅"
-          left={<Image src="/list.svg" alt="list" width={24} height={24} />}
+          left={
+            <Image
+              src="/list.svg"
+              alt="list"
+              width={24}
+              height={24}
+            />
+          }
           onLeftClick={handleSidebarOpen}
           right={
             <div className="flex gap-2">
-              <Image src="/new_chat.svg" alt="new_chat" width={24} height={24} />
-              <Image src="/more.svg" alt="more" width={24} height={24} />
+              <Image
+                src="/new_chat.svg"
+                alt="new_chat"
+                width={24}
+                height={24}
+              />
+              <Image
+                src="/more.svg"
+                alt="more"
+                width={24}
+                height={24}
+              />
             </div>
           }
           onRightClick={() => {
-            alert("오른쪽");
+            alert('오른쪽');
           }}
         />
         <div className="h-[86px]"></div>
