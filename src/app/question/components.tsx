@@ -41,25 +41,26 @@ export const QuestionCard = ({
   question,
   children,
 }: {
-  question: { main: string | JSX.Element; describe: string };
+  question: { title: string | JSX.Element; content: string };
   children?: ReactNode;
 }) => {
   return (
     <div className="items-center h-[498px] w-[358px] bg-white justify-center rounded-2xl px-[24px] shadow-md space-y-11">
       <div className="flex-col space-y-[12px]">
-        <div className="rounded-full bg-[#FFF599] w-[32px] h-[32px] flex items-center justify-center mx-auto mt-[28px]">
+        <div className="rounded-full flex items-center justify-center mx-auto mt-[28px]">
           <Image
-            alt="light-balb"
-            width={16}
-            height={16}
-            src="/light_balb.png"
+            alt="topic-banner"
+            width={127}
+            height={42}
+            src="/topic_banner.svg"
           />
+          
         </div>
-        <div className="text-center flex align-center justify-center text-2xl font-extrabold break-keep">
-          {question.main}
+        <div className="text-center text-gray-800 flex align-center justify-center text-2xl font-extrabold break-keep">
+          {question.title}
         </div>
-        <div className="text-center flex align-center justify-center text-[#717680] px-2 break-keep">
-          {question.describe}
+        <div className="text-center flex align-center justify-center text-gray-500 px-2 break-keep">
+          {question.content}
         </div>
       </div>
       {children}
