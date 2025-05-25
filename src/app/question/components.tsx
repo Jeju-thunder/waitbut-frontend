@@ -73,7 +73,7 @@ export const BigOButton = ({ onClick }: { onClick: () => void }) => {
     <>
       <div className="bg-[#CCE4FF] h-[164px] w-[144px] rounded-md py-[14px] cursor-pointer hover:border-2 hover:border-blue-400 active:border-[#1A88FF]">
         <button
-          className="w-full h-full flex flex-col items-center justify-evenly"
+          className="w-full h-full flex flex-col items-center justify-evenly cursor-pointer"
           onClick={onClick}
         >
           <Image
@@ -96,7 +96,7 @@ export const BigXButton = ({ onClick }: { onClick: () => void }) => {
     <>
       <div className="bg-[#FFE3E3] h-[164px] w-[144px] rounded-md py-[14px] cursor-pointer hover:border-2 hover:border-red-400 active:border-[#FC5555]">
         <button
-          className="w-full h-full flex flex-col items-center justify-evenly"
+          className="w-full h-full flex flex-col items-center justify-evenly cursor-pointer"
           onClick={onClick}
         >
           <Image

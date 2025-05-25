@@ -62,8 +62,8 @@ function TodayQuestion() {
 
         {/* bottom button */}
         <div className="pt-6">
-          <button className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m-">
-            다른 질문으로 대화하기
+          <button className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m- cursor-pointer" onClick={() => handleAnswer("false")}>
+          대화 시작하기
           </button>
         </div>
       </div>
