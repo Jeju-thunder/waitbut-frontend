@@ -6,6 +6,7 @@ import { useQuestionMatch } from "@/hooks/useQuestionMatch";
 import { MatchResponse } from "@/types/match";
 import { redirect, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { getTokens } from "@/utils/token";
 
 
 const MATCHING_STATUS = {
@@ -20,7 +21,7 @@ type MatchingStatus = typeof MATCHING_STATUS[keyof typeof MATCHING_STATUS]
 export default function MatchPage() {
   const searchParams = useSearchParams();
   const questionId = Number(searchParams.get('questionId')) || 0;
-  const memberId = Number(searchParams.get('memberId')) || 0;
+  const memberId = Number(getTokens()?.userId) || null;
 
   const { matchConnect, matchRequest, matchDisconnect } = useQuestionMatch();
   const [matchingStatus, setMatchingStatus] = useState<MatchingStatus>(MATCHING_STATUS.init);
@@ -53,6 +54,12 @@ export default function MatchPage() {
   }, []);
 
   useEffect(() => {
+
+    if (!memberId) {
+      alert('로그인 후 이용해주세요.');
+      return;
+    }
+
     if (matchingStatus === MATCHING_STATUS.ready) {
       matchRequest({ questionId, memberId });
     }

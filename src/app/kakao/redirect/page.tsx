@@ -32,6 +32,7 @@ export default function Callback() {
         setTokens({
           accessToken: res.data.accessToken,
           refreshToken: res.data.refreshToken,
+          userId: res.data.userId, // TODO: userId 확인 필요
         });
         
         router.push('/question');

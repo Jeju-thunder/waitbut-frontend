@@ -41,7 +41,6 @@ function TodayQuestion() {
     console.log('대화 시작하기');
     const url = new URL('/match', window.location.origin);
     url.searchParams.set('questionId', question?.id.toString() || '');
-    url.searchParams.set('memberId', '1'); // TODO: 회원 아이디 추가
     router.push(url.toString());
   }
 
