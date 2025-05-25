@@ -2,6 +2,7 @@
 export type TokenType = {
   accessToken: string;
   refreshToken: string;
+  userId: string;
 };
 
 // 토큰 저장
@@ -9,6 +10,9 @@ export const setTokens = (tokens: TokenType) => {
   if (typeof window !== 'undefined') {
     localStorage.setItem('accessToken', tokens.accessToken);
     localStorage.setItem('refreshToken', tokens.refreshToken);
+
+    // TODO: userId 저장 분리 필요
+    localStorage.setItem('userId', tokens.userId);
   }
 };
 
@@ -17,9 +21,10 @@ export const getTokens = (): TokenType | null => {
   if (typeof window !== 'undefined') {
     const accessToken = localStorage.getItem('accessToken');
     const refreshToken = localStorage.getItem('refreshToken');
-    
-    if (accessToken && refreshToken) {
-      return { accessToken, refreshToken };
+    const userId = localStorage.getItem('userId');
+
+    if (accessToken && refreshToken && userId) {
+      return { accessToken, refreshToken, userId };
     }
   }
   return null;
@@ -46,13 +51,14 @@ export const removeTokens = () => {
   if (typeof window !== 'undefined') {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userId');
   }
 };
 
 // 토큰 존재 여부 확인
 export const hasTokens = (): boolean => {
   if (typeof window !== 'undefined') {
-    return !!(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken'));
+    return !!(localStorage.getItem('accessToken') && localStorage.getItem('refreshToken') && localStorage.getItem('userId'));
   }
   return false;
 }; 

@@ -23,6 +23,7 @@ export default function Login() {
     if (res.ok) {
       const data = await res.json();
       setTokens({
+        userId: data.data.userId,
         accessToken: data.data.accessToken,
         refreshToken: data.data.refreshToken,
       });
