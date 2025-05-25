@@ -3,43 +3,50 @@
 import { useEffect, useState } from "react";
 import { useQuestionMatch } from "@/hooks/useQuestionMatch";
 
+const MATCHING_STATUS = {
+  init: 'init',
+  ready: 'ready',
+  connecting: 'connecting',
+  connected: 'connected',
+} as const;
+
+type MatchingStatus = typeof MATCHING_STATUS[keyof typeof MATCHING_STATUS]
+
 export default function QuestionMatchComponent() {
-  const { requestMatch, onMatchResult } = useQuestionMatch();
-  const [matchStatus, setMatchStatus] = useState<string>("");
+  const { matchConnect, matchRequest, matchDisconnect } = useQuestionMatch();
+  const [matchingStatus, setMatchingStatus] = useState<MatchingStatus>(MATCHING_STATUS.init);
 
   useEffect(() => {
-    // 매칭 결과 구독
-    const unsubscribe = onMatchResult((response) => {
-      if (response.status === "success") {
-        setMatchStatus(`매칭 성공! 매칭된 멤버 ID: ${response.matchedMemberId}`);
-      } else {
-        setMatchStatus(`매칭 실패: ${response.message}`);
-      }
-    });
+    if (matchingStatus === MATCHING_STATUS.init) {
+      setMatchingStatus(MATCHING_STATUS.ready);
+      matchConnect(()=>{
+        setMatchingStatus(MATCHING_STATUS.connected);
+      })
 
+
+    }
     return () => {
-      unsubscribe();
-    };
-  }, [onMatchResult]);
+      if (matchingStatus === MATCHING_STATUS.connected) {
+        matchDisconnect();
+      }
+    }
+  }, []);
 
   const handleMatch = () => {
-    // 예시 데이터
-    const matchPayload = {
-      questionId: 5,
-      memberId: 8,
-    };
+    console.log("매칭 요청 클릭");
+    if (matchingStatus === MATCHING_STATUS.ready) {
+      matchRequest({ questionId: 4, memberId: 2 });
+    }
+  }
 
-    requestMatch(matchPayload);
-    setMatchStatus("매칭 요청 중...");
-  };
 
   return (
     <div className="p-4">
-      <button onClick={handleMatch} className="bg-blue-500 text-white px-4 py-2 rounded">
+      <button onClick={handleMatch} className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
         질문 매칭 시작
       </button>
       <div className="mt-4">
-        <p>매칭 상태: {matchStatus}</p>
+        <p>매칭 상태: {matchingStatus}</p>
       </div>
     </div>
   );

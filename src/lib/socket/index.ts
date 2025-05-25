@@ -1,24 +1,42 @@
 import { io, Socket } from "socket.io-client";
 
+
+
 // 싱글톤 패턴으로 WebSocket 인스턴스 관리
 // socket.io 사용
 class SocketClient {
-  private static instance: Socket | null = null;
+  private static instances: Map<string, Socket> = new Map();
+  private path: string;
 
-  public static getInstance(): Socket {
-    if (!SocketClient.instance) {
-      SocketClient.instance = io(process.env.NEXT_PUBLIC_SOCKET_URL || "http://localhost:3000", {
-        transports: ["websocket"],
-        autoConnect: false,
-      });
+  constructor(path: string) {
+    this.path = path;
+  }
+  
+  public getInstance(): Socket {
+    if (!SocketClient.instances.has(this.path)) {
+      SocketClient.instances.set(
+        this.path,
+        io(this.path, {
+          transports: ["websocket"],
+          autoConnect: false,
+        })
+      );
     }
-    return SocketClient.instance;
+    return SocketClient.instances.get(this.path)!;
   }
 
-  public static disconnect(): void {
-    if (SocketClient.instance) {
-      SocketClient.instance.disconnect();
-      SocketClient.instance = null;
+  public connect(): void {
+    const socket = SocketClient.instances.get(this.path);
+    if (socket) {
+      socket.connect();
+    }
+  }
+
+  public disconnect(): void {
+    const socket = SocketClient.instances.get(this.path);
+    if (socket) {
+      socket.disconnect();
+      SocketClient.instances.delete(this.path);
     }
   }
 }

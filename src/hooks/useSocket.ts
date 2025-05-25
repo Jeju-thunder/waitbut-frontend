@@ -1,37 +1,39 @@
-import { useCallback } from "react";
-import SocketClient from "@/lib/socket";
+// import { useCallback } from "react";
+// import SocketClient from "@/lib/socket";
 
-export const useSocket = () => {
-  const connect = useCallback(() => {
-    const socket = SocketClient.getInstance();
-    socket.connect();
-    return socket;
-  }, []);
+// const SOCKET_URL = "socket/question/match";
 
-  const disconnect = useCallback(() => {
-    SocketClient.disconnect();
-  }, []);
+// export const useSocket = () => {
+//   const connect = useCallback(() => {
+//     const socket = SocketClient.getInstance(SOCKET_URL);
+//     socket.connect();
+//     return socket;
+//   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const subscribe = useCallback((eventName: string, callback: (...args: any[]) => void) => {
-    const socket = SocketClient.getInstance();
-    socket.on(eventName, callback);
+//   const disconnect = useCallback(() => {
+//     SocketClient.disconnect();
+//   }, []);
 
-    return () => {
-      socket.off(eventName, callback);
-    };
-  }, []);
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   const subscribe = useCallback((eventName: string, callback: (...args: any[]) => void) => {
+//     const socket = SocketClient.getInstance(SOCKET_URL);
+//     socket.on(eventName, callback);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const emit = useCallback((eventName: string, data: any) => {
-    const socket = SocketClient.getInstance();
-    socket.emit(eventName, data);
-  }, []);
+//     return () => {
+//       socket.off(eventName, callback);
+//     };
+//   }, []);
 
-  return {
-    connect,
-    disconnect,
-    subscribe,
-    emit,
-  };
-};
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   const emit = useCallback((eventName: string, data: any) => {
+//     const socket = SocketClient.getInstance(SOCKET_URL);
+//     socket.emit(eventName, data);
+//   }, []);
+
+//   return {
+//     connect,
+//     disconnect,
+//     subscribe,
+//     emit,
+//   };
+// };

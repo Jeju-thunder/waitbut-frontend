@@ -1,44 +1,74 @@
-import { useCallback, useEffect } from "react";
-import { useSocket } from "./useSocket";
+import MatchSocketClient from "@/lib/socket/MatchSocketClient";
 
 interface MatchPayload {
   questionId: number;
   memberId: number;
 }
 
-interface MatchResponse {
-  status: "success" | "fail";
-  message?: string;
-  matchedMemberId?: number;
+// interface MatchResponse {
+//   status: "success" | "fail";
+//   message?: string;
+//   matchedMemberId?: number;
+// }
+
+
+type MatchSubscribeEventName = 'match' | 'cancel_match'
+type MatchEventName = 'match'
+
+const SUBSCRIBE_EVENT: Record<string, MatchSubscribeEventName> = {
+  match: 'match',
+  cancel_match: 'cancel_match'
+}
+const EVENT_NAME: Record<string, MatchEventName> = {
+  match: 'match',
 }
 
 export const useQuestionMatch = () => {
-  const { connect, disconnect, subscribe, emit } = useSocket();
+  // const { connect, disconnect, subscribe, emit } = useSocket();
+  const matchSocketClient = new MatchSocketClient();
 
-  useEffect(() => {
-    connect();
+  const matchConnect = (callback: () => void) => {
 
-    return () => {
-      disconnect();
-    };
-  }, [connect, disconnect]);
+    const socket = matchSocketClient.getInstance();
+    socket.connect();
 
-  const requestMatch = useCallback(
-    (payload: MatchPayload) => {
-      emit("question/match", payload);
-    },
-    [emit]
-  );
+    console.log('match subscribe start')
 
-  const onMatchResult = useCallback(
-    (callback: (response: MatchResponse) => void) => {
-      return subscribe("question/match/result", callback);
-    },
-    [subscribe]
-  );
+    socket.on(SUBSCRIBE_EVENT.match, (data) => {
+      console.log('match', data);
+      callback();
+    });
+
+    socket.on(SUBSCRIBE_EVENT.cancel_match, (data) => {
+      console.log('cancel_match', data);
+    });
+  }
+
+
+  // eslint-disable-next-line 
+  const matchRequest = ({questionId, memberId}: MatchPayload) => {
+    const socket = matchSocketClient.getInstance();
+    socket.emit(EVENT_NAME.match, {
+      "questionId": 4, // 질문 id
+      "memberId": 2 // member id
+  });
+    // socket.emit(EVENT_NAME.match, {
+    //   questionId,
+    //   memberId
+    // });
+  }
+
+  const matchDisconnect = () => {
+    const socket = matchSocketClient.getInstance();
+    socket.off(SUBSCRIBE_EVENT.match);
+    socket.off(SUBSCRIBE_EVENT.cancel_match);
+    socket.disconnect();
+  }
+
 
   return {
-    requestMatch,
-    onMatchResult,
+    matchConnect,
+    matchRequest,
+    matchDisconnect
   };
 };
