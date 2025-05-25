@@ -68,9 +68,9 @@ export async function createArticle(data: { title: string; content: string }) {
 }
 
 // 답변 제출하기
-export async function handleSubmit(questionId: string, isSelected: boolean) {
+export async function handleSubmit(questionId: number, isSelected: string) {
   try {
-    const response = await fetchFromServer(`/api/questions/${questionId}/answer`, {
+    const response = await fetchFromServer(`/api/question/${questionId}/answer`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
