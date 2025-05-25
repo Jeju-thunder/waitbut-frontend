@@ -1,19 +1,17 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { Header, QuestionCard, BigOButton, BigXButton } from './components';
 import { useGetQuestion } from '@/hooks/apis/useGetQuestion';
 import { handleSubmit } from '@/api/fetchers';
-import { Questions } from '@/types/question';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const default_question = {
-  main: (
+  title: (
     <>
       연인이 이성친구의 <br />
       새우를 까줘도 괜찮다.
     </>
   ),
-  describe:
+  content:
     '당신과 연인은 함께 지인들과 해산물 맛집을 \
 방문했어요. 그런데 연인이 옆자리 \
 이성 친구에게 자연스레 새우를 까서 건네줘요.',
@@ -23,32 +21,21 @@ const default_question = {
  * @TODO API 테스트 완료 후 데이터 교체
  */
 function TodayQuestion() {
-  const [question, setQuestion] = useState<Questions[] | null>(null);
-  useEffect(() => {
-    const fetchQuestions = async () => {
-      try {
-        const response = await useGetQuestion();
+  const { data, isLoading, error } = useGetQuestion();
+  const question = data?.questions?.[0];
 
-        if (response && 'questions' in response && response.questions.length > 0) {
-          setQuestion(response.questions[0]);
-        }
-      } catch (error) {
-        console.error('Error fetching questions:', error);
-      }
-    };
-
-    fetchQuestions();
-  }, []);
-
-  const handleAnswer = async (isSelected: boolean) => {
+  console.log('question', question);
+  const handleAnswer = async (isSelected: string) => {
     try {
-      await handleSubmit(question?.id, isSelected);
+      if (!question?.id) return;
+      await handleSubmit(question.id, isSelected);
     } catch (error) {
       console.error('Error submitting answer:', error);
     }
   };
 
-  console.log('questions', question);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="bg-purple-600 w-full h-full">
@@ -58,7 +45,7 @@ function TodayQuestion() {
       {/* body */}
       <div className="h-full w-full bg-gradient-to-b from-[#F3EEFE] to-[#AFA4FF] flex flex-col px-[26px]">
         {/* main text */}
-        <div className="py-[36px] text-center items-center text-purple-700 text-[20px] font-semibold">
+        <div className="py-[36px] text-center items-center text-purple-700 text-[20px] font-bold">
           어서오세요.
           <br />
           오늘의 질문에 응답해보세요!
@@ -66,10 +53,9 @@ function TodayQuestion() {
         {/* question card */}
         <div className="justify-center flex">
           <QuestionCard question={question || default_question}>
-            {/* <QuestionCard question={default_question}> */}
             <div className="flex space-x-5">
-              <BigOButton onClick={() => handleAnswer(true)} />
-              <BigXButton onClick={() => handleAnswer(false)} />
+              <BigOButton onClick={() => handleAnswer("true")} />
+              <BigXButton onClick={() => handleAnswer("false")} />
             </div>
           </QuestionCard>
         </div>

@@ -2,14 +2,37 @@
 import Image from 'next/image';
 import { useKakaoLogin } from './useKakaoLogin';
 import './login.css';
-
+import { useRouter } from 'next/navigation';
+import { setTokens } from '@/utils/token';
 export default function Login() {
   const { loginWithKakao } = useKakaoLogin();
+  const router = useRouter();
   const handleKakaoLogin = () => {
     loginWithKakao();
   };
+  const handleLogin = async() => {
+    const res = await fetch('http://localhost:8080/api/auth/local/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        kakaoId: '10',
+      }),
+    })
+    if (res.ok) {
+      const data = await res.json();
+      setTokens({
+        accessToken: data.data.accessToken,
+        refreshToken: data.data.refreshToken,
+      });
+      router.push('/question');
+    } else {
+      console.error('Error:', res.statusText);
+    }
+  };
   return (
-    <div className="bg-purple-600 w-full h-full">
+    <div className="bg-gradient-to-b from-purple-600 to-[#A194FF] w-full h-full">
       <div className="flex flex-col items-center justify-between w-full h-full p-4">
         <div className="flex flex-col items-center">
           {/* 메인 텍스트 */}
@@ -37,7 +60,13 @@ export default function Login() {
             className="kakao-login-btn"
             onClick={handleKakaoLogin}
           >
-            카카오 계정으로 1초만에 시작하기
+            <h2>카카오 계정으로 1초만에 시작하기</h2>
+          </button>
+          <button
+            className="kakao-login-btn"
+            onClick={handleLogin}
+          >
+            <h2>로그인</h2>
           </button>
 
           {/* 하단 텍스트 */}
