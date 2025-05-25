@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useQuestionMatch } from "@/hooks/useQuestionMatch";
+import { MatchResponse } from "@/types/match";
 
 const MATCHING_STATUS = {
   init: 'init',
@@ -16,12 +17,17 @@ export default function QuestionMatchComponent() {
   const { matchConnect, matchRequest, matchDisconnect } = useQuestionMatch();
   const [matchingStatus, setMatchingStatus] = useState<MatchingStatus>(MATCHING_STATUS.init);
 
+  const [matchingResponse, setMatchingResponse] = useState<MatchResponse | null>(null);
+
+  const onMatch = (response: MatchResponse) => {
+    console.log("매칭 성공", response);
+    setMatchingResponse(response);
+  }
+
   useEffect(() => {
     if (matchingStatus === MATCHING_STATUS.init) {
       setMatchingStatus(MATCHING_STATUS.ready);
-      matchConnect(()=>{
-        setMatchingStatus(MATCHING_STATUS.connected);
-      })
+      matchConnect({onMatch})
 
 
     }
@@ -47,6 +53,7 @@ export default function QuestionMatchComponent() {
       </button>
       <div className="mt-4">
         <p>매칭 상태: {matchingStatus}</p>
+        <p>매칭 응답: {matchingResponse?.message}</p>
       </div>
     </div>
   );

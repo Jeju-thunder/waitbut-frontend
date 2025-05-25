@@ -1,5 +1,5 @@
 import MatchSocketClient from "@/lib/socket/MatchSocketClient";
-
+import { MatchResponse } from "@/types/match";
 interface MatchPayload {
   questionId: number;
   memberId: number;
@@ -27,20 +27,21 @@ export const useQuestionMatch = () => {
   // const { connect, disconnect, subscribe, emit } = useSocket();
   const matchSocketClient = new MatchSocketClient();
 
-  const matchConnect = (callback: () => void) => {
+  const matchConnect = ({onMatch, onCancelMatch}: {onMatch?: (response: MatchResponse) => void, onCancelMatch?: (data: unknown) => void}) => {
 
     const socket = matchSocketClient.getInstance();
     socket.connect();
 
     console.log('match subscribe start')
 
-    socket.on(SUBSCRIBE_EVENT.match, (data) => {
-      console.log('match', data);
-      callback();
+    socket.on(SUBSCRIBE_EVENT.match, (response: MatchResponse) => {
+      console.log('match', response);
+      onMatch?.(response);
     });
 
     socket.on(SUBSCRIBE_EVENT.cancel_match, (data) => {
       console.log('cancel_match', data);
+      onCancelMatch?.(data);
     });
   }
 
