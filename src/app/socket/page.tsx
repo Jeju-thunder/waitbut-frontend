@@ -1,4 +1,4 @@
-'use client'
+
 // import SocketComponent from "@/components/SocketComponent";
 import QuestionMatchComponent from "@/components/QuestionMatchComponent";
 
