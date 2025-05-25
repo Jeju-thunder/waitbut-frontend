@@ -1,7 +1,9 @@
 'use client';
+
 import { Header, QuestionCard, BigOButton, BigXButton } from './components';
 import { useGetQuestion } from '@/hooks/apis/useGetQuestion';
 import { handleSubmit } from '@/api/fetchers';
+import { useRouter } from 'next/navigation';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const default_question = {
@@ -34,6 +36,15 @@ function TodayQuestion() {
     }
   };
 
+  const router = useRouter();
+  const handleStartConversation = () => {
+    console.log('대화 시작하기');
+    const url = new URL('/match', window.location.origin);
+    url.searchParams.set('questionId', question?.id.toString() || '');
+    url.searchParams.set('memberId', '1'); // TODO: 회원 아이디 추가
+    router.push(url.toString());
+  }
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
@@ -62,7 +73,7 @@ function TodayQuestion() {
 
         {/* bottom button */}
         <div className="pt-6">
-          <button className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m- cursor-pointer" onClick={() => handleAnswer("false")}>
+          <button className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m- cursor-pointer" onClick={handleStartConversation}>
           대화 시작하기
           </button>
         </div>

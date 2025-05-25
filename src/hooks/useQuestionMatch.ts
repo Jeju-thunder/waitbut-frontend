@@ -53,10 +53,6 @@ export const useQuestionMatch = () => {
       "questionId": 4, // 질문 id
       "memberId": 2 // member id
   });
-    // socket.emit(EVENT_NAME.match, {
-    //   questionId,
-    //   memberId
-    // });
   }
 
   const matchDisconnect = () => {
