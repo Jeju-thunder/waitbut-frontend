@@ -127,7 +127,7 @@ const ChatListItem = ({
       </div>
       <div className="flex flex-col items-start gap-2 w-full">
         <div className="flex items-start gap-2 justify-between w-full">
-          <span className="text-sm font-bold group-hover:text-purple-700">{name}</span>
+          <span className="text-sm font-bold text-gray-600 group-hover:text-purple-700">{name}</span>
           <span className="text-xs text-gray-500">
             {time.toLocaleString('ko-KR', { hour: '2-digit', minute: '2-digit' })}
           </span>
@@ -141,7 +141,7 @@ const ChatListItem = ({
 const Button = ({ text, onClick }: { text: string; onClick: () => void }) => {
   return (
     <button
-      className={`text-xs border border-gray-300 rounded-sm px-[8px] py-[6px] bg-white`}
+      className={`text-xs border border-gray-300 rounded-sm px-[8px] py-[6px] bg-white text-gray-600`}
       onClick={onClick}
     >
       {text}

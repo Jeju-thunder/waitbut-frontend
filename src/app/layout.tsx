@@ -36,7 +36,7 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Providers>
-          <div className="flex bg-gray-100 justify-center items-center h-screen w-screen">
+          <div className="flex bg-gray-100 justify-center items-center h-full w-full">
             <div className="flex flex-col justify-center items-center w-[400px] h-[800px] bg-white">
               {/* mobile 화면 레이아웃 */}
               {children}

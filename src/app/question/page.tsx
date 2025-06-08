@@ -54,16 +54,19 @@ function TodayQuestion() {
         <div className="justify-center flex">
           <QuestionCard question={question || default_question}>
             <div className="flex space-x-5">
-              <BigOButton onClick={() => handleAnswer("true")} />
-              <BigXButton onClick={() => handleAnswer("false")} />
+              <BigOButton onClick={() => handleAnswer('true')} />
+              <BigXButton onClick={() => handleAnswer('false')} />
             </div>
           </QuestionCard>
         </div>
 
         {/* bottom button */}
         <div className="pt-6">
-          <button className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m- cursor-pointer" onClick={() => handleAnswer("false")}>
-          대화 시작하기
+          <button
+            className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m- cursor-pointer"
+            onClick={() => handleAnswer('false')}
+          >
+            대화 시작하기
           </button>
         </div>
       </div>
