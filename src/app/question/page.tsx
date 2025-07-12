@@ -1,9 +1,12 @@
 'use client';
-import { Header, QuestionCard, BigOButton, BigXButton } from './components';
-import { useGetQuestion } from '@/hooks/apis/useGetQuestion';
 import { handleSubmit } from '@/api/fetchers';
+import { Header, Sidebar } from '@/components';
+import { useGetQuestion } from '@/hooks/apis/useGetQuestion';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { BigOButton, BigXButton, QuestionCard } from './components';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const default_question = {
   title: (
     <>
@@ -23,6 +26,13 @@ const default_question = {
 function TodayQuestion() {
   const { data, isLoading, error } = useGetQuestion();
   const question = data?.questions?.[0];
+  const router = useRouter();
+
+  const [isSidebarOpened, setIsSidebarOpened] = useState(false);
+  const handleSidebarOpen = () => {
+    console.log('handleSidebarOpen');
+    setIsSidebarOpened(!isSidebarOpened);
+  };
 
   console.log('question', question);
   const handleAnswer = async (isSelected: string) => {
@@ -38,10 +48,37 @@ function TodayQuestion() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <div className="bg-purple-600 w-full h-full">
-      {/* header */}
-      <Header />
+    <div className="bg-purple-600 w-full h-full relative overflow-hidden">
+      <Sidebar
+        isSidebarOpened={isSidebarOpened}
+        handleSidebarOpen={handleSidebarOpen}
+      />
 
+      {/*헤더 영역*/}
+      <Header
+        title="대화주제"
+        left={
+          <Image
+            src="/list.svg"
+            alt="list"
+            width={24}
+            height={24}
+          />
+        }
+        onLeftClick={handleSidebarOpen}
+        right={
+          <Image
+            src="/human_in_circle.svg"
+            alt="list-button"
+            width={20}
+            height={20}
+          />
+        }
+        onRightClick={() => {
+          router.push('/my-profile');
+        }}
+      />
+      <div className="h-[48px]"></div>
       {/* body */}
       <div className="h-full w-full bg-gradient-to-b from-[#F3EEFE] to-[#AFA4FF] flex flex-col px-[26px]">
         {/* main text */}
