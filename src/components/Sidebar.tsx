@@ -1,8 +1,6 @@
 'use client';
-
+import { useGetChatList } from '@/hooks/apis/useGetChatList';
 import Image from 'next/image';
-import { getChatList } from '@/api/fetchers';
-import { useEffect } from 'react';
 
 const Sidebar = ({
   isSidebarOpened,
@@ -11,16 +9,10 @@ const Sidebar = ({
   isSidebarOpened: boolean;
   handleSidebarOpen: () => void;
 }) => {
-  console.log('Sidebar');
+  const { data, isLoading, error } = useGetChatList();
   const currentChat = '바쁜 어피치';
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getChatList();
-      console.log(data);
-    };
-    fetchData();
-  }, []);
+  console.log('Chat List Data:', data);
 
   const sampleChatList1 = [
     {
@@ -50,6 +42,9 @@ const Sidebar = ({
   ];
 
   const sampleChatList = sampleChatList1.concat(sampleChatList1).concat(sampleChatList1).concat(sampleChatList1);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
   return (
     <>
       <div

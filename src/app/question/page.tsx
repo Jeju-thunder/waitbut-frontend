@@ -30,11 +30,9 @@ function TodayQuestion() {
 
   const [isSidebarOpened, setIsSidebarOpened] = useState(false);
   const handleSidebarOpen = () => {
-    console.log('handleSidebarOpen');
     setIsSidebarOpened(!isSidebarOpened);
   };
 
-  console.log('question', question);
   const handleAnswer = async (isSelected: string) => {
     try {
       if (!question?.id) return;

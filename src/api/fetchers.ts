@@ -1,3 +1,5 @@
+import { ChatRoomList } from '@/types/chat';
+import { IApiResponse } from '@/types/common';
 import { getAccessToken } from '@/utils/token';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
@@ -6,12 +8,11 @@ const headers = {
   Authorization: `Bearer ${token}`,
   'Content-Type': 'application/json',
 };
-console.log(token)
+console.log(token);
 
 // SSR을 위한 Fetch 함수
 async function fetchFromServer(endpoint: string, options?: RequestInit) {
   const url = `${BASE_URL}${endpoint}`;
-
 
   try {
     const response = await fetch(url, {
@@ -93,7 +94,7 @@ export async function handleSubmit(questionId: number, isSelected: string) {
 }
 
 // 채팅 목록 가져오기
-export async function getChatList() {
+export const getChatList = async (): Promise<ChatRoomList> => {
   if (!getAccessToken()) {
     throw new Error('토큰이 없습니다.');
   }
@@ -103,16 +104,16 @@ export async function getChatList() {
   }
 
   try {
-    const response = await fetchFromServer('/api/chatrooms');
-    console.log(response);
-    if (!response.ok) {
-      throw new Error('채팅 목록을 가져오는 중 오류가 발생했습니다.');
-    }
+    const response: IApiResponse<ChatRoomList> = await fetchFromServer('/api/chatrooms');
+    const result = await response.data;
 
-    const result = await response.json();
-    return result.data;
+    if (response.code !== 200 || response.status !== 'OK') {
+      throw new Error(response.message || '채팅 목록을 가져오는 중 오류가 발생했습니다.');
+    }
+    console.log('getChatList result:', result);
+    return result;
   } catch (error) {
     console.error(`Error fetching chat list: ${error}`);
     throw error;
   }
-}
+};
