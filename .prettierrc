@@ -9,5 +9,6 @@
   "bracketSpacing": true,
   "endOfLine": "lf",
   "embeddedLanguageFormatting": "auto",
-  "singleAttributePerLine": true
+  "singleAttributePerLine": true,
+  "prettier.requireConfig": true
 }
