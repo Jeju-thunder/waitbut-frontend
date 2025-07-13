@@ -117,3 +117,28 @@ export const getChatList = async (): Promise<ChatRoomList> => {
     throw error;
   }
 };
+
+// 채팅방 삭제
+export const deleteChatRoom = async (ids: number[]) => {
+  if (!getAccessToken()) {
+    throw new Error('토큰이 없습니다.');
+  }
+
+  if (!BASE_URL) {
+    throw new Error('BASE_URL이 없습니다.');
+  }
+
+  try {
+    const response: IApiResponse<void> = await fetchFromServer(`/api/chatrooms?ids=${ids}`, {
+      method: 'DELETE',
+    });
+
+    if (response.code !== 200 || response.status !== 'OK') {
+      throw new Error(response.message || '채팅방을 삭제하는 중 오류가 발생했습니다.');
+    }
+    console.log(`Chat rooms deleted successfully.`);
+  } catch (error) {
+    console.error(`Error deleting chat rooms:`, error);
+    throw error;
+  }
+};
