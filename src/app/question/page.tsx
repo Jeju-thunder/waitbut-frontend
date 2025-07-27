@@ -1,7 +1,9 @@
 'use client';
+import { handleSubmit } from '@/api/fetchers';
+import { Header } from '@/components';
 import { useGetQuestion } from '@/hooks/apis/useGetQuestion';
 import Image from 'next/image';
-import { BigOButton, BigXButton, Header, QuestionCard } from './components';
+import { BigOButton, BigXButton, QuestionCard } from './components';
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -44,7 +46,6 @@ function TodayQuestion() {
     }
   };
 
-  const router = useRouter();
   const handleStartConversation = () => {
     console.log('대화 시작하기');
     const url = new URL('/match', window.location.origin);

@@ -1,13 +1,13 @@
 'use client';
 import { Header, Sidebar } from '@/components';
-import Image from 'next/image';
-import { SenderMessage, ReceiverMessage } from '@/components/chat';
-import { useEffect, useState } from 'react';
-import { ChatHeader } from './components';
-import { useSearchParams } from 'next/navigation';
+import { ReceiverMessage, SenderMessage } from '@/components/chat';
+import { useGetChatMessages } from '@/hooks/apis/useGetChatMessages';
 import { useChatRoom } from '@/hooks/useChatRoom';
 import { ChatEventResponse } from '@/types/chatSocket';
-import { useGetChatMessages } from '@/hooks/apis/useGetChatMessages';
+import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { ChatHeader } from './components';
 export default function Chat() {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false);
   const searchParams = useSearchParams();
@@ -45,6 +45,7 @@ export default function Chat() {
   };
 
   return (
+
     <div className="w-full h-[800px] relative overflow-hidden">
       <Sidebar
         isSidebarOpened={isSidebarOpened}
@@ -121,6 +122,8 @@ export default function Chat() {
             content="‘연인과의 새우 논쟁’이라는 주제에 ‘O’를 선택한 당신, 이 채팅방에는 여러분의 의견에 반대하는 유저와 매칭되었습니다. 지금부터 이 주제로 대화를 나눠보세요! 😊"
             timestamp="오후 05:52"
           />
+
+          
           {/* User Message */}
           <div className="flex justify-end items-end flex-col gap-[12px]">
             <ChatHeader title="나" icon="me" />
@@ -183,6 +186,7 @@ export default function Chat() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

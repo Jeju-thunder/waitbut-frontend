@@ -1,6 +1,10 @@
 export interface ChatRoom {
   id: number;
-  name: string;
+  matching_id: number;
+  created_at: string;
+  updated_at: string;
+  created_by: string;
+  contents: string;
 }
 
 export interface ChatRoomList {
@@ -18,3 +22,7 @@ export interface ChatMessage {
   createdAt: string;
   createdBy: string;
 }
+
+// export interface ChatRoom {
+
+// }
