@@ -1,37 +1,51 @@
 'use client';
-import Image from 'next/image';
-import { useKakaoLogin } from './useKakaoLogin';
-import './login.css';
-import { useRouter } from 'next/navigation';
 import { setTokens } from '@/utils/token';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import './login.css';
+import { useKakaoLogin } from './useKakaoLogin';
+
 export default function Login() {
   const { loginWithKakao } = useKakaoLogin();
   const router = useRouter();
+  
   const handleKakaoLogin = () => {
     loginWithKakao();
   };
-  const handleLogin = async () => {
-    const res = await fetch('http://localhost:8080/api/auth/local/signin', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        kakaoId: '10',
-      }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      setTokens({
-        userId: data.data.userId,
-        accessToken: data.data.accessToken,
-        refreshToken: data.data.refreshToken,
+
+  // 테스트용 로그인 함수 - 실제 배포 시에는 제거하거나 주석 처리
+  const handleTestLogin = async () => {
+    const SERVER_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://chat.waitbut.shop";
+    
+    try {
+      const res = await fetch(`${SERVER_URL}/api/auth/local/signin`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          kakaoId: '10', // 테스트용 하드코딩된 값
+        }),
       });
-      router.push('/question');
-    } else {
-      console.error('Error:', res.statusText);
+      
+      if (res.ok) {
+        const data = await res.json();
+        setTokens({
+          userId: data.data.userId,
+          accessToken: data.data.accessToken,
+          refreshToken: data.data.refreshToken,
+        });
+        router.push('/question');
+      } else {
+        console.error('Error:', res.statusText);
+        alert('로그인에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('로그인 중 오류 발생:', error);
+      alert('네트워크 오류가 발생했습니다.');
     }
   };
+
   return (
     <div className="bg-gradient-to-b from-purple-600 to-[#A194FF] w-full h-full">
       <div className="flex flex-col items-center justify-between w-full h-full p-4">
@@ -63,12 +77,17 @@ export default function Login() {
           >
             <h2>카카오 계정으로 1초만에 시작하기</h2>
           </button>
-          <button
-            className="kakao-login-btn"
-            onClick={handleLogin}
-          >
-            <h2>로그인</h2>
-          </button>
+          
+          {/* 테스트용 로그인 버튼 - 개발 환경에서만 표시 */}
+          {process.env.NODE_ENV === 'development' && (
+            <button
+              className="kakao-login-btn"
+              onClick={handleTestLogin}
+              style={{ backgroundColor: '#ff6b6b' }} // 테스트용 버튼임을 시각적으로 구분
+            >
+              <h2>테스트 로그인 (개발용)</h2>
+            </button>
+          )}
 
           {/* 하단 텍스트 */}
           <div className="text-white text-xs text-center">
