@@ -10,7 +10,7 @@ export function useUserInfo() {
   };
 
   // const userId = localStorage.getItem("userId") || "3";
-  const userId = '3';
+  const userId = '1';
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   return useQuery({

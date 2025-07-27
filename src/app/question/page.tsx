@@ -1,11 +1,15 @@
 'use client';
 import { handleSubmit } from '@/api/fetchers';
-import { Header, Sidebar } from '@/components';
+import { Header } from '@/components';
 import { useGetQuestion } from '@/hooks/apis/useGetQuestion';
 import Image from 'next/image';
+import { BigOButton, BigXButton, QuestionCard } from './components';
+
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { BigOButton, BigXButton, QuestionCard } from './components';
+
+import { Sidebar } from '@/components';
+
 
 const default_question = {
   title: (
@@ -41,6 +45,13 @@ function TodayQuestion() {
       console.error('Error submitting answer:', error);
     }
   };
+
+  const handleStartConversation = () => {
+    console.log('대화 시작하기');
+    const url = new URL('/match', window.location.origin);
+    url.searchParams.set('questionId', question?.id.toString() || '');
+    router.push(url.toString());
+  }
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -97,11 +108,8 @@ function TodayQuestion() {
 
         {/* bottom button */}
         <div className="pt-6">
-          <button
-            className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m- cursor-pointer"
-            onClick={() => handleAnswer('false')}
-          >
-            대화 시작하기
+          <button className="bg-purple-600 w-full rounded-2xl text-white text-xl h-16 m- cursor-pointer" onClick={handleStartConversation}>
+          대화 시작하기
           </button>
         </div>
       </div>
