@@ -1,9 +1,15 @@
-interface ChatMessage {
-  
+export interface GetChatMessagesResponse {
+  matchingId: number;
+  chats: ChatMessage[];
 }
 
-interface ChatRoom {
-  
+export interface ChatMessage {
+  id: number;
+  content: string;
+  createdAt: string;
+  createdBy: string;
 }
 
-export type { ChatMessage, ChatRoom };
+// export interface ChatRoom {
+
+// }

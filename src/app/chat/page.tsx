@@ -1,12 +1,46 @@
 'use client';
 import Image from 'next/image';
 import { Header, Sidebar } from '@/components';
-import { useState } from 'react';
+import { SenderMessage, ReceiverMessage } from '@/components/chat';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useChatRoom } from '@/hooks/useChatRoom';
+import { ChatEventResponse } from '@/types/chatSocket';
+import { useGetChatMessages } from '@/hooks/apis/useGetChatMessages';
 export default function Chat() {
   const [isSidebarOpened, setIsSidebarOpened] = useState(false);
+  const searchParams = useSearchParams();
+  const roomId = Number(searchParams.get('roomId')) || 0;
+  const matchingId = Number(searchParams.get('matchingId')) || 0;
+
+  const { chatRoomConnect, chatRoomRequest } = useChatRoom();
+  const { data: chatMessages } = useGetChatMessages(roomId);
+
   const handleSidebarOpen = () => {
     console.log('handleSidebarOpen');
     setIsSidebarOpened(!isSidebarOpened);
+  };
+
+  const handleChatEvent = (data: ChatEventResponse) => {
+    console.log('handleChatEvent', data);
+  };
+
+  useEffect(() => {
+    if (roomId) {
+      chatRoomConnect({ chatroomId: roomId, handleChatEvent });
+      chatRoomRequest({ type: 'join', payload: { chatroom_id: roomId } });
+    }
+  }, [roomId]);
+
+  const handleSendMessage = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      const message = event.currentTarget.value;
+      chatRoomRequest({
+        type: 'chat',
+        payload: { chatroom_id: roomId, matching_id: matchingId, contents: message, created_by: 'user' },
+      });
+      event.currentTarget.value = '';
+    }
   };
 
   return (
@@ -57,35 +91,56 @@ export default function Chat() {
           <span className="text-xs text-w-600 rounded-full px-[8px] py-[6px] bg-gray-100">2025.04.15</span>
         </div>
         {/*채팅 영역*/}
-        <div className=" space-y-4 px-[16px]">
+        <div className="space-y-4 px-[16px]">
           <div className="flex justify-center"></div>
           {/* Chatbot Message */}
-          <div className="flex justify-start flex-col">
-            <div className="bg-white p-4 rounded-lg shadow-md max-w-xs">
-              <p className="text-sm text-gray-800">
-                ‘연인과의 새우 논쟁’이라는 주제에 ‘O’를 선택한 당신, 이 채팅방에는 여러분의 의견에 반대하는 유저와
-                매칭되었습니다. 지금부터 이 주제로 대화를 나눠보세요! 😊
-              </p>
-            </div>
-            <span className="text-xs text-gray-500 block mt-2">오후 05:52</span>
-          </div>
-
+          <ReceiverMessage
+            content="‘연인과의 새우 논쟁’이라는 주제에 ‘O’를 선택한 당신, 이 채팅방에는 여러분의 의견에 반대하는 유저와 매칭되었습니다. 지금부터 이 주제로 대화를 나눠보세요! 😊"
+            timestamp="오후 05:52"
+          />
           {/* User Message */}
-          <div className="flex justify-end items-end flex-col">
-            <div className="bg-purple-600 p-4 rounded-lg shadow-md max-w-xs">
-              <p className="text-sm text-white">
-                안녕. 아니 근데 너는 연인이 이상한테 새우를 정성스럽게 까서 줘도 괜찮다고??
-              </p>
-            </div>
-            <span className="text-xs text-gray-500 block mt-2">오후 05:52</span>
-          </div>
-
+          <SenderMessage
+            content="안녕. 아니 근데 너는 연인이 이상한테 새우를 정성스럽게 까서 줘도 괜찮다고??"
+            timestamp="오후 05:52"
+          />
           {/* Another User Message */}
-          <div className="flex justify-end items-end flex-col">
-            <div className="bg-purple-600 p-4 rounded-lg shadow-md max-w-xs">
-              <p className="text-sm text-white">나는 가만히 지켜보기 너무 힘들 것 같은데..</p>
-            </div>
-            <span className="text-xs text-gray-500 block mt-2">오후 05:52</span>
+          <SenderMessage
+            content="나는 가만히 지켜보기 너무 힘들 것 같은데.."
+            timestamp="오후 05:52"
+          />
+
+          {/* 메시지 목록 렌더링 */}
+          {chatMessages?.chats.map((chat) =>
+            chat.createdBy === 'user' ? (                  
+              <SenderMessage
+                key={chat.id}
+                content={chat.content}
+                timestamp={new Date(chat.createdAt).toLocaleTimeString('ko-KR', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true,
+                })}
+              />
+            ) : (
+              <ReceiverMessage
+                key={chat.id}
+                content={chat.content}
+                timestamp={new Date(chat.createdAt).toLocaleTimeString('ko-KR', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true,
+                })}
+              />
+            ),
+          )}
+
+          {/* 메시지 입력 영역 */}
+          <div className="absolute bottom-0 left-0 right-0 h-[80px] bg-white border-t-[1px] border-gray-200">
+            <input
+              type="text"
+              className="w-full h-full"
+              onKeyDown={handleSendMessage}
+            />
           </div>
         </div>
       </div>

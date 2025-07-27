@@ -1,6 +1,4 @@
-import { io, Socket } from "socket.io-client";
-
-
+import { io, Socket } from 'socket.io-client';
 
 // 싱글톤 패턴으로 WebSocket 인스턴스 관리
 // socket.io 사용
@@ -11,15 +9,15 @@ class SocketClient {
   constructor(path: string) {
     this.path = path;
   }
-  
+
   public getInstance(): Socket {
     if (!SocketClient.instances.has(this.path)) {
       SocketClient.instances.set(
         this.path,
         io(this.path, {
-          transports: ["websocket"],
+          transports: ['websocket'],
           autoConnect: false,
-        })
+        }),
       );
     }
     return SocketClient.instances.get(this.path)!;
