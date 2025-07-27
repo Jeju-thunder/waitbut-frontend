@@ -1,3 +1,12 @@
+export interface ChatRoom {
+  id: number;
+  name: string;
+}
+
+export interface ChatRoomList {
+  chatrooms: ChatRoom[];
+}
+
 export interface GetChatMessagesResponse {
   matchingId: number;
   chats: ChatMessage[];
@@ -9,7 +18,3 @@ export interface ChatMessage {
   createdAt: string;
   createdBy: string;
 }
-
-// export interface ChatRoom {
-
-// }

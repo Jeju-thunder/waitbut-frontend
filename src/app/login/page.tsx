@@ -10,7 +10,7 @@ export default function Login() {
   const handleKakaoLogin = () => {
     loginWithKakao();
   };
-  const handleLogin = async() => {
+  const handleLogin = async () => {
     const res = await fetch('http://localhost:8080/api/auth/local/signin', {
       method: 'POST',
       headers: {
@@ -19,7 +19,7 @@ export default function Login() {
       body: JSON.stringify({
         kakaoId: '10',
       }),
-    })
+    });
     if (res.ok) {
       const data = await res.json();
       setTokens({
